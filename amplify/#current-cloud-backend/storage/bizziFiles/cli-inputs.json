@@ -1,0 +1,14 @@
+{
+  "resourceName": "bizziFiles",
+  "policyUUID": "59c07904",
+  "bucketName": "bizzi7a00d287161248519c73c9a72181116f",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

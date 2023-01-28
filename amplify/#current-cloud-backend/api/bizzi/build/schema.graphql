@@ -1,0 +1,654 @@
+
+type Client {
+  id: ID!
+  name: String!
+  email: String
+  image: String
+  transactions(filter: ModelTransactionFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTransactionConnection
+  phone: Int
+  chats(filter: ModelChatsFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelChatsConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Seller {
+  id: ID!
+  name: String!
+  email: String
+  address: String
+  phone: Int
+  image: String
+  transactions(filter: ModelTransactionFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTransactionConnection
+  listings(filter: ModelListingsFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelListingsConnection
+  chats(filter: ModelChatsFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelChatsConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Transaction {
+  id: ID!
+  category: String
+  description: String
+  price: Int
+  sellerReview: String
+  sellerStars: Float
+  buyerReview: String
+  buyerStars: Float
+  isConfirmed: Boolean
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  clientTransactionsId: ID
+  sellerTransactionsId: ID
+}
+
+type Listings {
+  id: ID!
+  category: String
+  description: String
+  price: Int
+  seller: Seller
+  buyerReview: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  sellerListingsId: ID
+  listingsSellerId: ID
+}
+
+type Chats {
+  id: ID!
+  lastSenderId: ID
+  lastMessage: String
+  messages(filter: ModelMessagesFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelMessagesConnection
+  client: Client
+  seller: Seller
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  clientChatsId: ID
+  sellerChatsId: ID
+}
+
+type Messages {
+  id: ID!
+  senderId: ID
+  message: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  chatsMessagesId: ID
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelClientConnection {
+  items: [Client]!
+  nextToken: String
+}
+
+input ModelClientFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  email: ModelStringInput
+  image: ModelStringInput
+  phone: ModelIntInput
+  and: [ModelClientFilterInput]
+  or: [ModelClientFilterInput]
+  not: ModelClientFilterInput
+}
+
+type Query {
+  getClient(id: ID!): Client
+  listClients(filter: ModelClientFilterInput, limit: Int, nextToken: String): ModelClientConnection
+  getSeller(id: ID!): Seller
+  listSellers(filter: ModelSellerFilterInput, limit: Int, nextToken: String): ModelSellerConnection
+  getTransaction(id: ID!): Transaction
+  listTransactions(filter: ModelTransactionFilterInput, limit: Int, nextToken: String): ModelTransactionConnection
+  getListings(id: ID!): Listings
+  listListings(filter: ModelListingsFilterInput, limit: Int, nextToken: String): ModelListingsConnection
+  getChats(id: ID!): Chats
+  listChats(filter: ModelChatsFilterInput, limit: Int, nextToken: String): ModelChatsConnection
+  getMessages(id: ID!): Messages
+  listMessages(filter: ModelMessagesFilterInput, limit: Int, nextToken: String): ModelMessagesConnection
+}
+
+input ModelClientConditionInput {
+  name: ModelStringInput
+  email: ModelStringInput
+  image: ModelStringInput
+  phone: ModelIntInput
+  and: [ModelClientConditionInput]
+  or: [ModelClientConditionInput]
+  not: ModelClientConditionInput
+}
+
+input CreateClientInput {
+  id: ID
+  name: String!
+  email: String
+  image: String
+  phone: Int
+}
+
+input UpdateClientInput {
+  id: ID!
+  name: String
+  email: String
+  image: String
+  phone: Int
+}
+
+input DeleteClientInput {
+  id: ID!
+}
+
+type Mutation {
+  createClient(input: CreateClientInput!, condition: ModelClientConditionInput): Client
+  updateClient(input: UpdateClientInput!, condition: ModelClientConditionInput): Client
+  deleteClient(input: DeleteClientInput!, condition: ModelClientConditionInput): Client
+  createSeller(input: CreateSellerInput!, condition: ModelSellerConditionInput): Seller
+  updateSeller(input: UpdateSellerInput!, condition: ModelSellerConditionInput): Seller
+  deleteSeller(input: DeleteSellerInput!, condition: ModelSellerConditionInput): Seller
+  createTransaction(input: CreateTransactionInput!, condition: ModelTransactionConditionInput): Transaction
+  updateTransaction(input: UpdateTransactionInput!, condition: ModelTransactionConditionInput): Transaction
+  deleteTransaction(input: DeleteTransactionInput!, condition: ModelTransactionConditionInput): Transaction
+  createListings(input: CreateListingsInput!, condition: ModelListingsConditionInput): Listings
+  updateListings(input: UpdateListingsInput!, condition: ModelListingsConditionInput): Listings
+  deleteListings(input: DeleteListingsInput!, condition: ModelListingsConditionInput): Listings
+  createChats(input: CreateChatsInput!, condition: ModelChatsConditionInput): Chats
+  updateChats(input: UpdateChatsInput!, condition: ModelChatsConditionInput): Chats
+  deleteChats(input: DeleteChatsInput!, condition: ModelChatsConditionInput): Chats
+  createMessages(input: CreateMessagesInput!, condition: ModelMessagesConditionInput): Messages
+  updateMessages(input: UpdateMessagesInput!, condition: ModelMessagesConditionInput): Messages
+  deleteMessages(input: DeleteMessagesInput!, condition: ModelMessagesConditionInput): Messages
+}
+
+input ModelSubscriptionClientFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  email: ModelSubscriptionStringInput
+  image: ModelSubscriptionStringInput
+  phone: ModelSubscriptionIntInput
+  and: [ModelSubscriptionClientFilterInput]
+  or: [ModelSubscriptionClientFilterInput]
+}
+
+type Subscription {
+  onCreateClient(filter: ModelSubscriptionClientFilterInput): Client @aws_subscribe(mutations: ["createClient"])
+  onUpdateClient(filter: ModelSubscriptionClientFilterInput): Client @aws_subscribe(mutations: ["updateClient"])
+  onDeleteClient(filter: ModelSubscriptionClientFilterInput): Client @aws_subscribe(mutations: ["deleteClient"])
+  onCreateSeller(filter: ModelSubscriptionSellerFilterInput): Seller @aws_subscribe(mutations: ["createSeller"])
+  onUpdateSeller(filter: ModelSubscriptionSellerFilterInput): Seller @aws_subscribe(mutations: ["updateSeller"])
+  onDeleteSeller(filter: ModelSubscriptionSellerFilterInput): Seller @aws_subscribe(mutations: ["deleteSeller"])
+  onCreateTransaction(filter: ModelSubscriptionTransactionFilterInput): Transaction @aws_subscribe(mutations: ["createTransaction"])
+  onUpdateTransaction(filter: ModelSubscriptionTransactionFilterInput): Transaction @aws_subscribe(mutations: ["updateTransaction"])
+  onDeleteTransaction(filter: ModelSubscriptionTransactionFilterInput): Transaction @aws_subscribe(mutations: ["deleteTransaction"])
+  onCreateListings(filter: ModelSubscriptionListingsFilterInput): Listings @aws_subscribe(mutations: ["createListings"])
+  onUpdateListings(filter: ModelSubscriptionListingsFilterInput): Listings @aws_subscribe(mutations: ["updateListings"])
+  onDeleteListings(filter: ModelSubscriptionListingsFilterInput): Listings @aws_subscribe(mutations: ["deleteListings"])
+  onCreateChats(filter: ModelSubscriptionChatsFilterInput): Chats @aws_subscribe(mutations: ["createChats"])
+  onUpdateChats(filter: ModelSubscriptionChatsFilterInput): Chats @aws_subscribe(mutations: ["updateChats"])
+  onDeleteChats(filter: ModelSubscriptionChatsFilterInput): Chats @aws_subscribe(mutations: ["deleteChats"])
+  onCreateMessages(filter: ModelSubscriptionMessagesFilterInput): Messages @aws_subscribe(mutations: ["createMessages"])
+  onUpdateMessages(filter: ModelSubscriptionMessagesFilterInput): Messages @aws_subscribe(mutations: ["updateMessages"])
+  onDeleteMessages(filter: ModelSubscriptionMessagesFilterInput): Messages @aws_subscribe(mutations: ["deleteMessages"])
+}
+
+type ModelSellerConnection {
+  items: [Seller]!
+  nextToken: String
+}
+
+input ModelSellerFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  email: ModelStringInput
+  address: ModelStringInput
+  phone: ModelIntInput
+  image: ModelStringInput
+  and: [ModelSellerFilterInput]
+  or: [ModelSellerFilterInput]
+  not: ModelSellerFilterInput
+}
+
+input ModelSellerConditionInput {
+  name: ModelStringInput
+  email: ModelStringInput
+  address: ModelStringInput
+  phone: ModelIntInput
+  image: ModelStringInput
+  and: [ModelSellerConditionInput]
+  or: [ModelSellerConditionInput]
+  not: ModelSellerConditionInput
+}
+
+input CreateSellerInput {
+  id: ID
+  name: String!
+  email: String
+  address: String
+  phone: Int
+  image: String
+}
+
+input UpdateSellerInput {
+  id: ID!
+  name: String
+  email: String
+  address: String
+  phone: Int
+  image: String
+}
+
+input DeleteSellerInput {
+  id: ID!
+}
+
+input ModelSubscriptionSellerFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  email: ModelSubscriptionStringInput
+  address: ModelSubscriptionStringInput
+  phone: ModelSubscriptionIntInput
+  image: ModelSubscriptionStringInput
+  and: [ModelSubscriptionSellerFilterInput]
+  or: [ModelSubscriptionSellerFilterInput]
+}
+
+type ModelTransactionConnection {
+  items: [Transaction]!
+  nextToken: String
+}
+
+input ModelTransactionFilterInput {
+  id: ModelIDInput
+  category: ModelStringInput
+  description: ModelStringInput
+  price: ModelIntInput
+  sellerReview: ModelStringInput
+  sellerStars: ModelFloatInput
+  buyerReview: ModelStringInput
+  buyerStars: ModelFloatInput
+  isConfirmed: ModelBooleanInput
+  and: [ModelTransactionFilterInput]
+  or: [ModelTransactionFilterInput]
+  not: ModelTransactionFilterInput
+  clientTransactionsId: ModelIDInput
+  sellerTransactionsId: ModelIDInput
+}
+
+input ModelTransactionConditionInput {
+  category: ModelStringInput
+  description: ModelStringInput
+  price: ModelIntInput
+  sellerReview: ModelStringInput
+  sellerStars: ModelFloatInput
+  buyerReview: ModelStringInput
+  buyerStars: ModelFloatInput
+  isConfirmed: ModelBooleanInput
+  and: [ModelTransactionConditionInput]
+  or: [ModelTransactionConditionInput]
+  not: ModelTransactionConditionInput
+  clientTransactionsId: ModelIDInput
+  sellerTransactionsId: ModelIDInput
+}
+
+input CreateTransactionInput {
+  id: ID
+  category: String
+  description: String
+  price: Int
+  sellerReview: String
+  sellerStars: Float
+  buyerReview: String
+  buyerStars: Float
+  isConfirmed: Boolean
+  clientTransactionsId: ID
+  sellerTransactionsId: ID
+}
+
+input UpdateTransactionInput {
+  id: ID!
+  category: String
+  description: String
+  price: Int
+  sellerReview: String
+  sellerStars: Float
+  buyerReview: String
+  buyerStars: Float
+  isConfirmed: Boolean
+  clientTransactionsId: ID
+  sellerTransactionsId: ID
+}
+
+input DeleteTransactionInput {
+  id: ID!
+}
+
+input ModelSubscriptionTransactionFilterInput {
+  id: ModelSubscriptionIDInput
+  category: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  price: ModelSubscriptionIntInput
+  sellerReview: ModelSubscriptionStringInput
+  sellerStars: ModelSubscriptionFloatInput
+  buyerReview: ModelSubscriptionStringInput
+  buyerStars: ModelSubscriptionFloatInput
+  isConfirmed: ModelSubscriptionBooleanInput
+  and: [ModelSubscriptionTransactionFilterInput]
+  or: [ModelSubscriptionTransactionFilterInput]
+}
+
+type ModelListingsConnection {
+  items: [Listings]!
+  nextToken: String
+}
+
+input ModelListingsFilterInput {
+  id: ModelIDInput
+  category: ModelStringInput
+  description: ModelStringInput
+  price: ModelIntInput
+  buyerReview: ModelStringInput
+  and: [ModelListingsFilterInput]
+  or: [ModelListingsFilterInput]
+  not: ModelListingsFilterInput
+  sellerListingsId: ModelIDInput
+  listingsSellerId: ModelIDInput
+}
+
+input ModelListingsConditionInput {
+  category: ModelStringInput
+  description: ModelStringInput
+  price: ModelIntInput
+  buyerReview: ModelStringInput
+  and: [ModelListingsConditionInput]
+  or: [ModelListingsConditionInput]
+  not: ModelListingsConditionInput
+  sellerListingsId: ModelIDInput
+  listingsSellerId: ModelIDInput
+}
+
+input CreateListingsInput {
+  id: ID
+  category: String
+  description: String
+  price: Int
+  buyerReview: String
+  sellerListingsId: ID
+  listingsSellerId: ID
+}
+
+input UpdateListingsInput {
+  id: ID!
+  category: String
+  description: String
+  price: Int
+  buyerReview: String
+  sellerListingsId: ID
+  listingsSellerId: ID
+}
+
+input DeleteListingsInput {
+  id: ID!
+}
+
+input ModelSubscriptionListingsFilterInput {
+  id: ModelSubscriptionIDInput
+  category: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  price: ModelSubscriptionIntInput
+  buyerReview: ModelSubscriptionStringInput
+  and: [ModelSubscriptionListingsFilterInput]
+  or: [ModelSubscriptionListingsFilterInput]
+}
+
+type ModelChatsConnection {
+  items: [Chats]!
+  nextToken: String
+}
+
+input ModelChatsFilterInput {
+  id: ModelIDInput
+  lastSenderId: ModelIDInput
+  lastMessage: ModelStringInput
+  and: [ModelChatsFilterInput]
+  or: [ModelChatsFilterInput]
+  not: ModelChatsFilterInput
+  clientChatsId: ModelIDInput
+  sellerChatsId: ModelIDInput
+}
+
+input ModelChatsConditionInput {
+  lastSenderId: ModelIDInput
+  lastMessage: ModelStringInput
+  and: [ModelChatsConditionInput]
+  or: [ModelChatsConditionInput]
+  not: ModelChatsConditionInput
+  clientChatsId: ModelIDInput
+  sellerChatsId: ModelIDInput
+}
+
+input CreateChatsInput {
+  id: ID
+  lastSenderId: ID
+  lastMessage: String
+  clientChatsId: ID
+  sellerChatsId: ID
+}
+
+input UpdateChatsInput {
+  id: ID!
+  lastSenderId: ID
+  lastMessage: String
+  clientChatsId: ID
+  sellerChatsId: ID
+}
+
+input DeleteChatsInput {
+  id: ID!
+}
+
+input ModelSubscriptionChatsFilterInput {
+  id: ModelSubscriptionIDInput
+  lastSenderId: ModelSubscriptionIDInput
+  lastMessage: ModelSubscriptionStringInput
+  and: [ModelSubscriptionChatsFilterInput]
+  or: [ModelSubscriptionChatsFilterInput]
+}
+
+type ModelMessagesConnection {
+  items: [Messages]!
+  nextToken: String
+}
+
+input ModelMessagesFilterInput {
+  id: ModelIDInput
+  senderId: ModelIDInput
+  message: ModelStringInput
+  and: [ModelMessagesFilterInput]
+  or: [ModelMessagesFilterInput]
+  not: ModelMessagesFilterInput
+  chatsMessagesId: ModelIDInput
+}
+
+input ModelMessagesConditionInput {
+  senderId: ModelIDInput
+  message: ModelStringInput
+  and: [ModelMessagesConditionInput]
+  or: [ModelMessagesConditionInput]
+  not: ModelMessagesConditionInput
+  chatsMessagesId: ModelIDInput
+}
+
+input CreateMessagesInput {
+  id: ID
+  senderId: ID
+  message: String
+  chatsMessagesId: ID
+}
+
+input UpdateMessagesInput {
+  id: ID!
+  senderId: ID
+  message: String
+  chatsMessagesId: ID
+}
+
+input DeleteMessagesInput {
+  id: ID!
+}
+
+input ModelSubscriptionMessagesFilterInput {
+  id: ModelSubscriptionIDInput
+  senderId: ModelSubscriptionIDInput
+  message: ModelSubscriptionStringInput
+  and: [ModelSubscriptionMessagesFilterInput]
+  or: [ModelSubscriptionMessagesFilterInput]
+}
+

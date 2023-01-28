@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-bizzi-dev-135649-authRole",
+      "UnauthRoleArn": "arn:aws:iam::523987079981:role/amplify-bizzi-dev-135649-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::523987079981:role/amplify-bizzi-dev-135649-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-bizzi-dev-135649-deployment",
+      "UnauthRoleName": "amplify-bizzi-dev-135649-unauthRole",
+      "StackName": "amplify-bizzi-dev-135649",
+      "StackId": "arn:aws:cloudformation:us-east-1:523987079981:stack/amplify-bizzi-dev-135649/a65b85b0-78ab-11ed-8ed8-12235e503b61",
+      "AmplifyAppId": "d2phga9047q3gg"
+    },
+    "categories": {
+      "api": {
+        "bizzi": {}
+      },
+      "auth": {
+        "bizzi323d347a": {}
+      },
+      "storage": {
+        "bizziFiles": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "AppSyncApiName": "bizzi",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "S3DeploymentBucket": "amplify-bizzi-dev-135649-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/14a3b7236273bf28a35665926478bb25d2cb7cde"
+}

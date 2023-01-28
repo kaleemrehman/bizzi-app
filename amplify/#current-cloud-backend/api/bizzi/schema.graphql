@@ -1,0 +1,72 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Client @model {
+  id: ID!
+  name: String!
+  email: String  
+  image: String
+  transactions: [Transaction] @hasMany      
+  phone: Int
+  chats: [Chats] @hasMany
+}
+
+type Seller @model {
+  id: ID!
+  name: String!
+  email: String  
+  address: String
+  phone: Int
+  image: String
+  transactions: [Transaction] @hasMany
+  listings: [Listings] @hasMany
+  chats: [Chats] @hasMany
+}
+
+type Transaction @model {
+  id: ID!
+  category: String  
+  description: String
+  price: Int
+  sellerReview: String
+  sellerStars: Float  
+  buyerReview: String  
+  buyerStars: Float
+  isConfirmed: Boolean
+}
+type Listings @model {
+  id: ID!
+  category: String  
+  description: String
+  price: Int
+  seller: Seller @hasOne #maybe should delete
+  buyerReview: String  
+}
+
+type Chats @model {
+  id: ID! #it will be a mix of client and seller id  
+  lastSenderId: ID
+  lastMessage: String
+  messages: [Messages] @hasMany
+  client: Client @belongsTo
+  seller: Seller @belongsTo
+}
+
+type Messages @model {
+  id: ID!
+  senderId: ID
+  message: String
+}
+# type Post @model {
+#   id: ID!
+#   title: String!
+#   blog: Blog @belongsTo
+#   comments: [Comment] @hasMany
+# }
+
+# type Comment @model {
+#   id: ID!
+#   post: Post @belongsTo
+#   content: String!
+# }
